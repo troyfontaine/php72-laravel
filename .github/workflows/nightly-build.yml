@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [run_checks]
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v1
       - name: Docker Registry
         env:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN $DOCKER_REGISTRY_URL
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
       - name: Building Docker Image
         env:
           CONTAINER_IMAGE_NAME: troyfontaine/php72-laravel
