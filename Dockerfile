@@ -6,26 +6,25 @@ FROM php:7.2-fpm-buster
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update -y \
-  && apt-get install -y libpng-dev \
-  libjpeg62-turbo-dev \
-  libwebp-dev \
-  libxslt-dev \
-  libxml2-dev \
-  libc-client-dev \
-  libkrb5-dev \
-  zlib1g-dev \
-  libicu-dev \
-  openssl \
-  unzip \
-  g++ \
-  --no-install-recommends \
-  && apt-get install -y cron \
-  vim \
-  procps \
-  acl \
-  git \
-  zip \
-  sudo \
+  && apt-get autoremove -y \
+  && apt-get install -y \
+  exitlibpng-dev=1.6.36-6 \
+  libjpeg62-turbo-dev=1:1.5.2-2+b1 \
+  libwebp-dev=0.6.1-2 \
+  libxslt1-dev=1.1.32-2.2~deb10u1 \
+  libxml2-dev=2.9.4+dfsg1-7+b3 \
+  libc-client2007e-dev=8:2007f~dfsg-6 \
+  libkrb5-dev=1.17-3 \
+  zlib1g-dev=1:1.2.11.dfsg-1 \
+  libicu-dev=63.1-6 \
+  unzip=6.0-23+deb10u1 \
+  cron=3.0pl1-134+deb10u1 \
+  vim=2:8.1.0875-5 \
+  procps=2:3.3.15-2 \
+  acl=2.2.53-4 \
+  git=1:2.20.1-2+deb10u1 \
+  zip=3.0-11+b1 \
+  sudo=1.8.27-1+deb10u2 \
   --no-install-recommends \
   && rm -r /var/lib/apt/lists/*
 
