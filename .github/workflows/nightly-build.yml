@@ -19,4 +19,9 @@ jobs:
         env:
           CONTAINER_IMAGE_NAME: troyfontaine/php72-laravel
         run:
-          docker build --no-cache -t $CONTAINER_IMAGE_NAME:latest .
+          docker build --no-cache --compressed -t "$CONTAINER_IMAGE_NAME:latest" .
+      - name: Push Docker Image
+        env:
+          CONTAINER_IMAGE_NAME: troyfontaine/php72-laravel
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:latest"
