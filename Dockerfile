@@ -29,6 +29,7 @@ ENV APP_DEPS \
     sudo
 
 RUN apt-get update -y \
+  && apt-get dist-upgrade -y \
   && apt-get install -y $PHP_DEPS $APP_DEPS \
   --no-install-recommends \
   && rm -r /var/lib/apt/lists/* \
