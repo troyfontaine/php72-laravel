@@ -10,4 +10,19 @@ jobs:
     name: Build Code on AMD64 Architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - name: Docker Registry
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+      - name: Building Docker Image
+        env:
+          CONTAINER_IMAGE_NAME: troyfontaine/php72-laravel
+        run:
+          docker build --no-cache --compressed -t "$CONTAINER_IMAGE_NAME:latest" .
+      - name: Push Docker Image
+        env:
+          CONTAINER_IMAGE_NAME: troyfontaine/php72-laravel
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:latest"
