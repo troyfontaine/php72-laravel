@@ -29,3 +29,5 @@ jobs:
         run: echo ::set-env name=DATE_TAG::$(date +"%m-%d-%y")-$GIT_HASH
       - name: Build image
         run: docker build --compress --no-cache -t "$DOCKER_IMAGE_NAME:$GIT_HASH" -t "$DOCKER_IMAGE_NAME:$DATE_TAG" .
+      - name: Show tagged images
+        run: docker image ls
