@@ -1,0 +1,33 @@
+---
+name: Merge Pull Request
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+env:
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  CONTAINER_IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  retag_image:
+    name: Build Code on AMD64 Architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Registry
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+
+      - name: Pull image
+        run: docker pull "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)"
+
+      - name: Retag Image
+        run: docker tag "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)" "$CONTAINER_IMAGE_NAME:latest"
+
+      - name: Push Docker Image
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:latest"
