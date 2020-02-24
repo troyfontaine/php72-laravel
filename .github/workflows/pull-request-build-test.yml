@@ -4,7 +4,7 @@ name: Open Pull Request
 on: [pull_request]
 
 env:
-  DOCKER_IMAGE_NAME: ${{ GITHUB_REPOSITORY }}
+  DOCKER_IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   run_checks:
