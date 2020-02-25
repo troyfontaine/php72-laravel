@@ -1,11 +1,12 @@
 ---
-name: Merge Pull Request
+name: Merge Pull Request for Master/Releases
 
 on:
   pull_request:
     types: [closed]
     branches:
-      - master
+      - 'master'
+      - 'releases/**'
 
 env:
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
