@@ -3,6 +3,9 @@ name: Open Pull Request
 
 on: [pull_request]
 
+env:
+  DOCKER_IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   run_checks:
     name: Run Linter
@@ -20,5 +23,9 @@ jobs:
     needs: [run_checks]
     steps:
       - uses: actions/checkout@v2
+
+      - name: Generate Git Hash Variable
+        run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
+
       - name: Build image
-        run: docker build -t testimage:latest .
+        run: docker build --compress --no-cache -t "$DOCKER_IMAGE_NAME:$GIT_HASH" .
