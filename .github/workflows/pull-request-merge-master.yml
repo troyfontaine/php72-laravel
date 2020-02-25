@@ -1,0 +1,53 @@
+---
+name: Merge Pull Request
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+env:
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  CONTAINER_IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  retag_image:
+    name: Build Code on AMD64 Architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Registry
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
+
+      - name: Generate Git Hash Variable
+        run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
+
+      - name: Enable experimental DOCKER_CLI
+        run: echo ::set-env name=DOCKER_CLI_EXPERIMENTAL::"enabled"
+
+      - name: Check Dockerhub if image is there
+        run:  echo ::set-env name=IMAGE_EXISTS::$(docker manifest inspect $CONTAINER_IMAGE_NAME:$GIT_HASH > /dev/null ; echo $?)
+
+      - name: Building Docker Image
+        run:
+          docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
+        if: IMAGE_EXISTS == 1
+
+      - name: Push Docker Image
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:$GIT_HASH"
+        if: IMAGE_EXISTS == 1
+
+      - name: Pull image
+        run: docker pull "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)"
+        if: IMAGE_EXISTS == 0
+
+      - name: Retag Image
+        run: docker tag "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)" "$CONTAINER_IMAGE_NAME:latest"
+
+      - name: Push Docker Image
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:latest"

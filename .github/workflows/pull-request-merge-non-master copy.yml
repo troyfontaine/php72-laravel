@@ -1,15 +1,18 @@
-name: Deploy Nightly
+---
+name: Merge Pull Request
+
 on:
-  schedule:
-    - cron: '0 2 * * *' # run at 2 AM UTC
+  pull_request:
+    types: [closed]
 
 env:
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  CONTAINER_IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  nightly:
-    name: Re-build nightly
+  build_image:
+    name: Build AMD64 Container Image with appropriate tags
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,12 +23,10 @@ jobs:
       - name: Generate Git Hash Variable
         run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
 
-      - name: Generate Date-Time Variable
-        run: echo ::set-env name=DATE_TAG::$(date +"%m-%d-%y")-$GIT_HASH
-
       - name: Building Docker Image
         run:
-          docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$DATE_TAG" -t "$CONTAINER_IMAGE_NAME:latest" .
+          docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
 
       - name: Push Docker Image
-        run: docker push "$CONTAINER_IMAGE_NAME:latest"
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:$GIT_HASH"
