@@ -22,8 +22,25 @@ jobs:
       - name: Docker Registry
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
 
+      - name: Generate Git Hash Variable
+        run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
+
+      - name: Check Dockerhub if image is there
+        run:  export DOCKER_CLI_EXPERIMENTAL=enabled && echo ::set-env name=IMAGE_EXISTS::$(docker manifest inspect $CONTAINER_IMAGE_NAME:$GIT_HASH > /dev/null ; echo $?)
+
+        - name: Building Docker Image
+        run:
+          docker build --no-cache -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
+        if: IMAGE_EXISTS == 1
+
+      - name: Push Docker Image
+        run:
+          docker push "$CONTAINER_IMAGE_NAME:$GIT_HASH"
+        if: IMAGE_EXISTS == 1
+
       - name: Pull image
         run: docker pull "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)"
+        if: IMAGE_EXISTS == 0
 
       - name: Retag Image
         run: docker tag "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)" "$CONTAINER_IMAGE_NAME:latest"
