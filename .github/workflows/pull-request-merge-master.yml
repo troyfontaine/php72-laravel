@@ -31,7 +31,7 @@ jobs:
       - name: Check Dockerhub if image is there
         run:  echo ::set-env name=IMAGE_EXISTS::$(docker manifest inspect $CONTAINER_IMAGE_NAME:$GIT_HASH > /dev/null ; echo $?)
 
-        - name: Building Docker Image
+      - name: Building Docker Image
         run:
           docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
         if: IMAGE_EXISTS == 1
