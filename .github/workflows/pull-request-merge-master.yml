@@ -25,8 +25,11 @@ jobs:
       - name: Generate Git Hash Variable
         run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
 
+      - name: Enable experimental DOCKER_CLI
+        run: echo ::set-env name=DOCKER_CLI_EXPERIMENTAL::"enabled"
+
       - name: Check Dockerhub if image is there
-        run:  export DOCKER_CLI_EXPERIMENTAL=enabled && echo ::set-env name=IMAGE_EXISTS::$(docker manifest inspect $CONTAINER_IMAGE_NAME:$GIT_HASH > /dev/null ; echo $?)
+        run:  echo ::set-env name=IMAGE_EXISTS::$(docker manifest inspect $CONTAINER_IMAGE_NAME:$GIT_HASH > /dev/null ; echo $?)
 
         - name: Building Docker Image
         run:
