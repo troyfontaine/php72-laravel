@@ -35,16 +35,16 @@ jobs:
       - name: Building Docker Image
         run:
           docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
-        if: $IMAGE_EXISTS == 1
+        if: env.IMAGE_EXISTS == 1
 
       - name: Push Docker Image
         run:
           docker push "$CONTAINER_IMAGE_NAME:$GIT_HASH"
-        if: IMAGE_EXISTS == 1
+        if: env.IMAGE_EXISTS == 1
 
       - name: Pull image
         run: docker pull "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)"
-        if: IMAGE_EXISTS == 0
+        if: env.IMAGE_EXISTS == 0
 
       - name: Retag Image
         run: docker tag "$CONTAINER_IMAGE_NAME:$(git rev-parse --short HEAD)" "$CONTAINER_IMAGE_NAME:latest"
