@@ -30,7 +30,7 @@ jobs:
 
         - name: Building Docker Image
         run:
-          docker build --no-cache -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
+          docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$GIT_HASH" .
         if: IMAGE_EXISTS == 1
 
       - name: Push Docker Image
