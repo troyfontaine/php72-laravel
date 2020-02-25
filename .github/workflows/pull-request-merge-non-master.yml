@@ -1,9 +1,12 @@
 ---
-name: Merge Pull Request
+name: Merge Pull Request for non-Master/Releases
 
 on:
   pull_request:
     types: [closed]
+    branches-ignore:
+      - 'master'
+      - 'releases/**'
 
 env:
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
