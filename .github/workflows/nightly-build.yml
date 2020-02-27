@@ -17,11 +17,8 @@ jobs:
       - name: Docker Registry
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
 
-      - name: Generate Git Hash Variable
-        run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
-
       - name: Generate Date-Time Variable
-        run: echo ::set-env name=DATE_TAG::$(date +"%m-%d-%y")-$GIT_HASH
+        run: echo ::set-env name=DATE_TAG::$(date +"%m-%d-%y")
 
       - name: Building Docker Image
         run:
