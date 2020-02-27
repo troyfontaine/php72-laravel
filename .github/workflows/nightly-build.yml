@@ -6,6 +6,7 @@ on:
 env:
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   nightly:
@@ -22,7 +23,7 @@ jobs:
 
       - name: Building Docker Image
         run:
-          docker build --no-cache --compress -t "$CONTAINER_IMAGE_NAME:$DATE_TAG" -t "$CONTAINER_IMAGE_NAME:latest" .
+          docker build --no-cache --compress -t "$DOCKER_IMAGE_NAME:$DATE_TAG" -t "$DOCKER_IMAGE_NAME:latest" .
 
       - name: Push Docker Image
-        run: docker push "$CONTAINER_IMAGE_NAME:latest"
+        run: docker push "$DOCKER_IMAGE_NAME:latest"
