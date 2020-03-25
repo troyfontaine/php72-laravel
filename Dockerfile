@@ -1,5 +1,6 @@
 FROM php:7.2-fpm-buster
 
+LABEL maintainer="Troy Fontaine"
 # Do not add environment variable dependencies for Laravel here-they will BREAK server environments that use secrets files
 
 # Base image exposes port 9000 for FPM
