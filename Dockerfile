@@ -8,6 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update -y \
   && apt-get autoremove -y \
   && apt-get install -y \
+  ca-certificates \
   libpng-dev=1.6.36-6 \
   libjpeg62-turbo-dev=1:1.5.2-2+b1 \
   libwebp-dev=0.6.1-2 \
