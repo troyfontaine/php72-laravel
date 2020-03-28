@@ -1,5 +1,6 @@
 FROM php:7.2-fpm-buster
 
+LABEL maintainer="Troy Fontaine"
 # Do not add environment variable dependencies for Laravel here-they will BREAK server environments that use secrets files
 
 # Base image exposes port 9000 for FPM
@@ -8,6 +9,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update -y \
   && apt-get autoremove -y \
   && apt-get install -y \
+  ca-certificates=20190110 \
   libpng-dev=1.6.36-6 \
   libjpeg62-turbo-dev=1:1.5.2-2+b1 \
   libwebp-dev=0.6.1-2 \
@@ -16,7 +18,7 @@ RUN apt-get update -y \
   libc-client2007e-dev=8:2007f~dfsg-6 \
   libkrb5-dev=1.17-3 \
   zlib1g-dev=1:1.2.11.dfsg-1 \
-  libicu-dev=63.1-6 \
+  libicu-dev=63.1-6+deb10u1 \
   unzip=6.0-23+deb10u1 \
   cron=3.0pl1-134+deb10u1 \
   vim=2:8.1.0875-5 \
