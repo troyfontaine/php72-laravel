@@ -18,7 +18,7 @@ RUN apt-get update -y \
   libc-client2007e-dev=8:2007f~dfsg-6 \
   libkrb5-dev=1.17-3 \
   zlib1g-dev=1:1.2.11.dfsg-1 \
-  libicu-dev=63.1-6 \
+  libicu-dev=63.1-6+deb10u1 \
   unzip=6.0-23+deb10u1 \
   cron=3.0pl1-134+deb10u1 \
   vim=2:8.1.0875-5 \
