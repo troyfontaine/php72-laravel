@@ -24,7 +24,7 @@ RUN apt-get update -y \
   vim=2:8.1.0875-5 \
   procps=2:3.3.15-2 \
   acl=2.2.53-4 \
-  git=1:2.20.1-2+deb10u1 \
+  git=1:2.20.1-2+deb10u3\
   zip=3.0-11+b1 \
   sudo=1.8.27-1+deb10u2 \
   --no-install-recommends \
