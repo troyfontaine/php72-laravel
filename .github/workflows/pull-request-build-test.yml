@@ -24,6 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Branch Name Test
+        run: echo "${{ github.event.pull_request.head.ref }}"
+
       - name: Generate Git Hash Variable
         run: echo ::set-env name=GIT_HASH::$(git rev-parse --short HEAD)
 
