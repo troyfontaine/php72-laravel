@@ -9,7 +9,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update -y \
   && apt-get autoremove -y \
   && apt-get install -y \
-  ca-certificates=20190110 \
+  ca-certificates=20200601~deb10u1 \
   libpng-dev=1.6.36-6 \
   libjpeg62-turbo-dev=1:1.5.2-2+b1 \
   libwebp-dev=0.6.1-2 \
@@ -24,7 +24,7 @@ RUN apt-get update -y \
   vim=2:8.1.0875-5 \
   procps=2:3.3.15-2 \
   acl=2.2.53-4 \
-  git=1:2.20.1-2+deb10u1 \
+  git=1:2.20.1-2+deb10u3 \
   zip=3.0-11+b1 \
   sudo=1.8.27-1+deb10u2 \
   --no-install-recommends \
